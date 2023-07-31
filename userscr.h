@@ -12,14 +12,16 @@
 #include <QString>
 #include <qsqlquery.h>
 #include <QLabel>
+#include <QObject>
+#include <QVector>
 
-#include "mainscr.h"
+#include "observer.h"
 
 namespace Ui {
 class userscr;
 }
 
-class userscr : public QDialog
+class userscr : public QDialog, public Observer
 {
     Q_OBJECT
 
@@ -30,40 +32,26 @@ public:
     void connectData();
     void appendData();
 
-    mainscr* ptrMainScr;
-
     QStringList getCurrentData();
     QString inputName;
+
+    void update(QString message) override;
 
 private slots:
     void on_pushButton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::userscr *ui;
-    userscr* ptrUserScr;
+
+    Subject weatherStation;
+
+    userscr *display1;
+    userscr *display2;
 
     QSqlQueryModel *sqlModel;
     QSqlDatabase database;
 };
-
-class ICustomer
-{
-public:
-    virtual ~ICustomer();
-
-    virtual void update() = 0;
-};
-
-class ICar
-{
-public:
-    virtual ~ICar();
-
-    virtual void notify() = 0;
-    virtual void attach(ICustomer* customer) = 0;
-    virtual void detach(ICustomer* customer) = 0;
-};
-
-
 
 #endif // USERSCR_H

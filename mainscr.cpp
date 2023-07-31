@@ -7,7 +7,7 @@ mainscr::mainscr(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->label->setText("fvdvxbb");
+    ui->listWidget->addItem("Rent");
     //connect(ui->label, &);
     connectData();
     appendData();

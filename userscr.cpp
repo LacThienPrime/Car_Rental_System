@@ -7,7 +7,7 @@ userscr::userscr(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ptrMainScr = new mainscr();
+    weatherStation.registerObserver(this);
 
     connectData();
     appendData();
@@ -20,7 +20,12 @@ userscr::~userscr()
 
 void userscr::on_pushButton_clicked()
 {
+    weatherStation.notifyObservers("You rent a car");
+}
 
+void userscr::update(QString message)
+{
+    ui->listWidget->addItem(message);
 }
 
 void userscr::appendData()
@@ -74,5 +79,10 @@ void userscr::connectData()
     else {
         QMessageBox::information(this, "fail", "open failed");
     }
+}
+
+void userscr::on_pushButton_2_clicked()
+{
+    weatherStation.notifyObservers("You return a car");
 }
 

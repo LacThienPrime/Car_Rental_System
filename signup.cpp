@@ -9,7 +9,7 @@ SignUp::SignUp(QWidget *parent) :
 
     connect(ui->pushButton_2, &QPushButton::clicked, [=](){
         cleanLineEdit();
-        this->hide();
+        //this->hide();
     });
 }
 

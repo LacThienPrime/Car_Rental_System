@@ -13,19 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>580</x>
-     <y>60</y>
-     <width>311</width>
-     <height>131</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
-   </property>
-  </widget>
   <widget class="QTableView" name="tableView">
    <property name="geometry">
     <rect>
@@ -36,17 +23,14 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QListWidget" name="listWidget">
    <property name="geometry">
     <rect>
-     <x>570</x>
-     <y>290</y>
-     <width>341</width>
-     <height>131</height>
+     <x>540</x>
+     <y>30</y>
+     <width>361</width>
+     <height>161</height>
     </rect>
-   </property>
-   <property name="text">
-    <string>TextLabel</string>
    </property>
   </widget>
  </widget>

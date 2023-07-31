@@ -13,6 +13,7 @@ SOURCES += \
     main.cpp \
     mainscr.cpp \
     mainwindow.cpp \
+    observer.cpp \
     signup.cpp \
     userscr.cpp
 
@@ -20,6 +21,7 @@ HEADERS += \
     login.h \
     mainscr.h \
     mainwindow.h \
+    observer.h \
     signup.h \
     userscr.h
 
