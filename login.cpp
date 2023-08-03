@@ -45,7 +45,6 @@ void Login::connectDatabase(){
     db.setUserName("Root");
     db.setPassword("");
 
-    //database path needs to be integral
     db.setDatabaseName("C:/Users/Rome/Documents/CarRentSystem/usersData.db");
 }
 
@@ -62,16 +61,20 @@ void Login::matchDatabase()
     query.bindValue(":userName", userName);
     query.bindValue(":password", password);
 
-    if(!query.exec()) {
+    if(!query.exec())
+    {
         QMessageBox::information(this, "failed", "failed to execute");
     }
 
-    else {
-        if(query.next()) {
+    else
+    {
+        if(query.next())
+        {
             QString userNameFromDB = query.value(0).toString();
             QString passwordFromDB = query.value(1).toString();
 
-            if(userNameFromDB == "rome" && passwordFromDB == "rome") {
+            if(userNameFromDB == "rome" && passwordFromDB == "rome")
+            {
                 qDebug() << "Admin login"<< endl;
                 ptrMain->show();
             }
@@ -84,7 +87,7 @@ void Login::matchDatabase()
 
         else
         {
-            QMessageBox::information(this, "failed", "Log in failed, Please check your username or " "password");
+            QMessageBox::information(this, "failed", "Log in failed, Please check your username or password");
         }
     }
 }

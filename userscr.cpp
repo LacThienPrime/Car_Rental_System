@@ -7,7 +7,7 @@ userscr::userscr(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    weatherStation.registerObserver(this);
+    car.registerCustomer(this);
 
     connectData();
     appendData();
@@ -20,11 +20,24 @@ userscr::~userscr()
 
 void userscr::on_pushButton_clicked()
 {
-    weatherStation.notifyObservers("You rent a car");
+    QStringList Data;
+    Data = this->getCurrentData();
+
+    QString Result = Data.join(" ");
+    car.notifyCustomer("You rent a car with ID: " + Result);
+}
+
+void userscr::on_pushButton_2_clicked()
+{
+    QStringList data;
+    data = this->getCurrentData();
+
+    QString result = data.join(" ");
+    car.notifyCustomer("You return a car with ID: " + result);
 }
 
 void userscr::update(QString message)
-{
+{ 
     ui->listWidget->addItem(message);
 }
 
@@ -38,32 +51,32 @@ QStringList userscr::getCurrentData()
 {
     QStringList rowData;
 
-    //get current row data
     int row = ui->tableView->currentIndex().row();
     QAbstractItemModel *model = ui->tableView->model();
-    //QModelIndex index0 = model->index(row, 0);  //two ways to get index
+    //QModelIndex index0 = model->index(row, 0);
 
     if(row != -1)
     {
-        //get the value of the whole row that user chosed
         rowData << model->index(row, 0).data().toString();
         rowData << model->index(row, 1).data().toString();
         rowData << model->index(row, 2).data().toString();
         rowData << model->index(row, 3).data().toString();
         rowData << model->index(row, 4).data().toString();
         rowData << model->index(row, 5).data().toString();
-        //rowData << model->data(index0).toString(); as another way
+        //rowData << model->data(index0).toString();
     }
     return rowData;
 }
 
 void userscr::connectData()
 {
-    if(QSqlDatabase::contains("qt_sql_default_connection")) {
-
+    if(QSqlDatabase::contains("qt_sql_default_connection"))
+    {
         database = QSqlDatabase::database("qt_sql_default_connection");
     }
-    else {
+
+    else
+    {
         database = QSqlDatabase::addDatabase("QSQLITE");
     }
 
@@ -72,17 +85,14 @@ void userscr::connectData()
     database.setPassword("");
     database.setDatabaseName("C:/Users/Rome/Documents/CarRentSystem/usersData.db");
 
-    if(database.open()) {
+    if(database.open())
+    {
         sqlModel = new QSqlQueryModel();
         sqlModel->setQuery("select ID, carModel, colour from vehicles");
     }
-    else {
+
+    else
+    {
         QMessageBox::information(this, "fail", "open failed");
     }
 }
-
-void userscr::on_pushButton_2_clicked()
-{
-    weatherStation.notifyObservers("You return a car");
-}
-

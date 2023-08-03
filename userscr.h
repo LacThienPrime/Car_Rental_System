@@ -3,17 +3,15 @@
 
 #include <QDialog>
 #include <QMainWindow>
-#include <QPainter>
 #include <QtSql>
+#include <QSqlQuery>
+#include <QSqlQueryModel>
 #include <QSqlDatabase>
 #include <QMessageBox>
 #include <QDebug>
-#include <QAbstractItemModel>
 #include <QString>
 #include <qsqlquery.h>
-#include <QLabel>
 #include <QObject>
-#include <QVector>
 
 #include "observer.h"
 
@@ -21,7 +19,7 @@ namespace Ui {
 class userscr;
 }
 
-class userscr : public QDialog, public Observer
+class userscr : public QDialog, public Customer
 {
     Q_OBJECT
 
@@ -45,10 +43,9 @@ private slots:
 private:
     Ui::userscr *ui;
 
-    Subject weatherStation;
+    Car car;
 
     userscr *display1;
-    userscr *display2;
 
     QSqlQueryModel *sqlModel;
     QSqlDatabase database;

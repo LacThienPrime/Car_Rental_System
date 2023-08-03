@@ -1,17 +1,17 @@
 #include "observer.h"
 
-void Subject::registerObserver(Observer* observer) {
-    if (!observers.contains(observer)) {
-        observers.append(observer);
+void Car::registerCustomer(Customer* customer) {
+    if (!customers.contains(customer)) {
+        customers.append(customer);
     }
 }
 
-void Subject::removeObserver(Observer* observer) {
-    observers.removeOne(observer);
+void Car::removeCustomer(Customer* customer) {
+    customers.removeOne(customer);
 }
 
-void Subject::notifyObservers(QString message) {
-    for (auto observer : observers) {
-        observer->update(message);
+void Car::notifyCustomer(QString message) {
+    for (auto customer : customers) {
+        customer->update(message);
     }
 }

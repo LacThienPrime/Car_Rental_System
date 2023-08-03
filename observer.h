@@ -5,21 +5,21 @@
 #include <QVector>
 #include <QString>
 
-class Observer {
+class Customer {
 public:
+    virtual ~Customer() {};
+
     virtual void update(QString message) = 0;
 };
 
-class Observer;
-
-class Subject {
+class Car {
 public:
-    void registerObserver(Observer* observer);
-    void removeObserver(Observer* observer);
-    void notifyObservers(QString message);
+    void registerCustomer(Customer* customer);
+    void removeCustomer(Customer* customer);
+    void notifyCustomer(QString message);
 
 private:
-    QVector<Observer*> observers;
+    QVector<Customer*> customers;
 };
 
 #endif // OBSERVER_H
