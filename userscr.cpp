@@ -23,8 +23,23 @@ void userscr::on_pushButton_clicked()
     QStringList Data;
     Data = this->getCurrentData();
 
-    QString Result = Data.join(" ");
-    car.notifyCustomer("You rent a car with ID: " + Result);
+    if (Data.isEmpty()) {
+        return;
+    }
+
+    int carId = Data.at(0).toInt();
+
+    QSqlQuery query;
+    query.prepare("UPDATE vehicles SET availability = 1 WHERE ID = :carId");
+    query.bindValue(":carId", carId);
+
+    if (query.exec()) {
+        car.notifyCustomer("You rent a car with ID: " + QString::number(carId));
+    } else {
+        car.notifyCustomer("Failed to rent the car.");
+    }
+
+    appendData();
 }
 
 void userscr::on_pushButton_2_clicked()
@@ -32,8 +47,23 @@ void userscr::on_pushButton_2_clicked()
     QStringList data;
     data = this->getCurrentData();
 
-    QString result = data.join(" ");
-    car.notifyCustomer("You return a car with ID: " + result);
+    if (data.isEmpty()) {
+        return;
+    }
+
+    int carId = data.at(0).toInt();
+
+    QSqlQuery query;
+    query.prepare("UPDATE vehicles SET availability = 0 WHERE ID = :carId");
+    query.bindValue(":carId", carId);
+
+    if (query.exec()) {
+        car.notifyCustomer("You return a car with ID: " + QString::number(carId));
+    } else {
+        car.notifyCustomer("Failed to return the car.");
+    }
+
+    appendData();
 }
 
 void userscr::update(QString message)
@@ -44,6 +74,10 @@ void userscr::update(QString message)
 void userscr::appendData()
 {
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+
+    sqlModel = new QSqlQueryModel();
+    sqlModel->setQuery("SELECT ID, carModel, colour FROM vehicles WHERE availability = 0");
+
     ui->tableView->setModel(sqlModel);
 }
 
