@@ -12,7 +12,9 @@
 #include <QString>
 #include <qsqlquery.h>
 #include <QObject>
+#include <QThread>
 
+#include "databaseworker.h"
 #include "observer.h"
 
 namespace Ui {
@@ -35,10 +37,15 @@ public:
 
     void update(QString message) override;
 
+signals:
+    void fetchDataFromDatabase();
+
 private slots:
     void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
+
+    void handleFetchedData(QSqlQueryModel *model);
 
 private:
     Ui::userscr *ui;
@@ -49,6 +56,9 @@ private:
 
     QSqlQueryModel *sqlModel;
     QSqlDatabase database;
+
+    QThread workerThread;
+    DatabaseWorker *dbWorker;
 };
 
 #endif // USERSCR_H

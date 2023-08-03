@@ -9,13 +9,27 @@ userscr::userscr(QWidget *parent) :
 
     car.registerCustomer(this);
 
-    connectData();
-    appendData();
+    dbWorker = new DatabaseWorker;
+    dbWorker->moveToThread(&workerThread);
+
+    connect(&workerThread, &QThread::finished, dbWorker, &QObject::deleteLater);
+    connect(this, &userscr::fetchDataFromDatabase, dbWorker, &DatabaseWorker::fetchData);
+    connect(dbWorker, &DatabaseWorker::dataFetched, this, &userscr::handleFetchedData);
+
+    workerThread.start();
+
+    emit fetchDataFromDatabase();
+
+    //connectData();
+    //appendData();
 }
 
 userscr::~userscr()
 {
     delete ui;
+
+    workerThread.quit();
+    workerThread.wait();
 }
 
 void userscr::on_pushButton_clicked()
@@ -128,5 +142,17 @@ void userscr::connectData()
     else
     {
         QMessageBox::information(this, "fail", "open failed");
+    }
+}
+
+void userscr::handleFetchedData(QSqlQueryModel *model)
+{
+    if (model)
+    {
+        ui->tableView->setModel(model);
+    }
+    else
+    {
+        QMessageBox::information(this, "Fail", "Failed to fetch data from the database.");
     }
 }
